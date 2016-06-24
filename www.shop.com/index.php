@@ -20,6 +20,9 @@ define('APP_DEBUG',True);
 //定义一个项目目录常量
 define('ROOT_PATH',  __DIR__ . '/');
 
+//使用单模块模式
+define('BIND_MODULE','Home');//由于前后台已经分成不同的域名，所以使用多模块方式已经没有必要了
+
 // 定义应用目录
 define('APP_PATH',ROOT_PATH . '/Application/');
 
