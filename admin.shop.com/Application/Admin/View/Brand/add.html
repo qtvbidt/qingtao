@@ -7,6 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="__CSS__/general.css" rel="stylesheet" type="text/css" />
         <link href="__CSS__/main.css" rel="stylesheet" type="text/css" />
+        <css href='__UPLOADIFY__/common.css'/>
     </head>
     <body>
         <h1>
@@ -23,6 +24,14 @@
                         <td>
                             <input type="text" name="name" maxlength="60" value="{$row.name}" />
                             <span class="require-field">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">品牌Logo</td>
+                        <td>
+                            <input type="hidden" name="logo" id="logo" value="{$row.logo}"/>
+                            <input type="file" id="logo_file" />
+                            <img src="{$row.logo}" id="logo_preview" width="100" style="display:block;"/>
                         </td>
                     </tr>
                     <tr>
@@ -60,10 +69,32 @@
             版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。
         </div>
     <js href='__JS__/jquery.min.js'/>
+    <js href='__UPLOADIFY__/jquery.uploadify.min.js'/>
+    <js href='__LAYER__/layer.js'/>
     <script type='text/javascript'>
+
         $(function(){
             //回显供应商状态
             $('.status').val([{$row.status|default=1}]);
+            $options={
+                swf:'__UPLOADIFY__/uploadify.swf',
+                uploader:'{:U("Upload/uploadImg")}',
+                buttonText:' 选择文件',
+                fileObjName:'file_data',
+                onUploadSuccess:function(file_item,response){
+                    //根据返回的status来判定是否成功
+                    var data = $.parseJSON(response);
+                    if(data.status){
+                        $('#logo').val(data.file_url);
+                        $('#logo_preview').attr('src',data.file_url);
+                        layer.alert(data.msg, {icon: 6});
+                    }else{
+                        //alert(data.msg);
+                        layer.alert(data.msg, {icon: 5});
+                    }
+                },
+            };
+            $('#logo_file').uploadify($options);
         });
     </script>
     </body>

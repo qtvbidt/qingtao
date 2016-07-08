@@ -27,4 +27,8 @@ class ArticleCategoryModel extends Model{
         $rows = $this->where($cond)->page(I('get.p',1),$page_setting['PAGE_SIZE'])->select();
         return compact('rows','page_html');
     }
+
+    public function getList() {
+        return $this->where(['status'=>['gt',0]])->getField('id,name');
+    }
 }

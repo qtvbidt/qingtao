@@ -7,6 +7,11 @@ return array(
         '__CSS__'=> BASE_URL . '/Public/Admin/css',
         '__JS__'=> BASE_URL . '/Public/Admin/js',
         '__IMG__'=> BASE_URL . '/Public/Admin/images',
+        '__UPLOADIFY__'=> BASE_URL . '/Public/Admin/ext/uploadify',
+        '__LAYER__'=> BASE_URL . '/Public/Admin/ext/layer',
+        '__ZTREE__'=> BASE_URL . '/Public/Admin/ext/ztree',
+        '__TREEGRID__'=> BASE_URL . '/Public/Admin/ext/treegrid',
+        '__UEDITOR__'=> BASE_URL . '/Public/Admin/ext/ueditor',
     ],
 
     /* 数据库设置 */
@@ -27,7 +32,26 @@ return array(
     'DB_SLAVE_NO'           =>  '', // 指定从服务器序号
     //分页相关的配置
     'PAGE_SETTING'=>[
-        'PAGE_SIZE'=>2,
+        'PAGE_SIZE'=>2,    //每页显示条数
         'PAGE_THEME'=>'%HEADER% %FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
     ],
+    'UPLOAD_SETTING'=>  require 'upload.php',
+
+    //RBAC访问忽略列表
+    'ACCESS_IGNORE'=>[
+        'IGNORE'=>[//所有用户都可见
+            'Admin/Admin/login',
+            'Admin/Captcha/captcha',
+        ],
+        'USER_IGNORE'=>[//登陆用户都可见
+            'Admin/Index/index',
+            'Admin/Index/top',
+            'Admin/Index/menu',
+            'Admin/Index/main',
+            'Admin/Admin/logout',
+            'Admin/Admin/changePassword',
+        ],
+    ],
+
+    'COOKIE_PREFIX'=>'admin_shop_com_', // cookie前缀设置
 );

@@ -23,11 +23,18 @@ class ArticleController extends Controller{
 
     //文章列表
     public function index(){
-        //echo date('Y-m-d h:i:s');exit;
-        //获取数据
-        $rows=$this->_model->indexArticle();//exit;
-        $this->assign('rows',$rows);
-        //展示
+        //获取文章列表
+        $name = I('get.name');
+        $cond = [];
+        if ($name) {
+            $cond['name'] = ['like', '%' . $name . '%'];
+        }
+        $this->assign($this->_model->getPageResult($cond));
+
+        //获取所有的文章分类
+        $article_category_model = D('ArticleCategory');
+        $categories             = $article_category_model->getList();
+        $this->assign('categories', $categories);
         $this->display();
     }
     //添加

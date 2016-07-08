@@ -43,4 +43,12 @@ class SupplierModel extends Model{
         //return array('rows'=>$rows,'page_html'=>$page_html);
     }
 
+    /**
+     * 获取所有的商品分类。
+     * @return array
+     */
+    public function getList() {
+        return $this->where(['status'=>['gt',0]])->select();
+    }
+
 }

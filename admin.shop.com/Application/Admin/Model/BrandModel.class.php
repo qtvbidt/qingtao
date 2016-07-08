@@ -41,4 +41,12 @@ class BrandModel extends Model{
         $rows = $this->where($cond)->page(I('get.p',1),$page_setting['PAGE_SIZE'])->select();
         return compact('rows','page_html');
     }
+
+    /**
+     * 获取所有的商品分类。
+     * @return array
+     */
+    public function getList() {
+        return $this->where(['status'=>['gt',0]])->select();
+    }
 }

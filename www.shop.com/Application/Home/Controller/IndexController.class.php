@@ -2,7 +2,55 @@
 namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
+    protected function _initialize(){
+        //判断是否需要展示商品分类,首页展示,其它页面折叠
+        if (ACTION_NAME == 'index') {
+            $show_categroy = true;
+        } else {
+            $show_categroy = false;
+        }
+        $this->assign('show_category', $show_categroy);
+
+        //由于分类数据和帮助文章列表数据,不会频繁发生变化,但是请求又较为频繁,所以我们进行缓存
+        if (!$goods_categories = S('goods_categories')) {
+            //准备商品分类数据
+            $goods_category_model = D('GoodsCategory');
+            $goods_categories = $goods_category_model->getList('id,name,parent_id');
+            S('goods_categories', $goods_categories,3600);
+        }
+        $this->assign('goods_categories', $goods_categories);
+
+        if (!$help_article_list = S('help_article_list')) {
+            //准备商品分类数据
+            $article_category_model = D('Article');
+            $help_article_list = $article_category_model->getHelpList();
+            S('help_article_list', $help_article_list,3600);
+        }
+        //帮助文章分类
+        $this->assign('help_article_list',$help_article_list);
+
+        //获取用户登陆信息
+        $this->assign('userinfo',login());
+    }
     public function index(){
-        $this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px } a,a:hover,{color:blue;}</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>版本 V{$Think.version}</div><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_55e75dfae343f5a1"></thinkad><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
+        $goods_model = D('Goods');
+        $data = [
+            'goods_best_list'=>$goods_model->getListByGoodsStatus(1),
+            'goods_new_list'=>$goods_model->getListByGoodsStatus(2),
+            'goods_hot_list'=>$goods_model->getListByGoodsStatus(4),
+        ];
+        $this->assign($data);
+        $this->display();
+     }
+
+    public function goods($id){
+        //获取商品详情
+        $goods_model = D('Goods');
+
+        if(!$row = $goods_model->getGoodsInfo($id)){
+            $this->error('您查看的商品没有了,下次再来哦',U('index'));
+        }
+        $this->assign('row',$row);
+        $this->display();
     }
 }
