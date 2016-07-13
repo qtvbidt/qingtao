@@ -36,8 +36,8 @@ class MemberModel extends Model{
         ['email','email','邮箱不合法'],
         ['tel','require','手机号能为空'],
         ['tel','/^1[34578]\d{9}$/','手机号不合法',self::EXISTS_VALIDATE,'regex'],
-        ['checkcode','require','图片验证码不能为空'],
-        ['checkcode','checkImgCode','图片验证码不正确',self::EXISTS_VALIDATE,'callback'],
+        //['checkcode','require','图片验证码不能为空'],
+        //['checkcode','checkImgCode','图片验证码不正确',self::EXISTS_VALIDATE,'callback'],
         ['captcha','require','手机验证码不能为空'],
         ['captcha','checkTelCode','手机验证码不正确',self::EXISTS_VALIDATE,'callback'],
     ];
@@ -125,6 +125,10 @@ class MemberModel extends Model{
         $this->setField($data);
         //将用户信息保存到session中.
         login($userinfo);
+        //把购物车cookie数据保存到数据表中,并清空cookie
+        $shopping_car_model = D('ShoppingCar');
+        $shopping_car_model->cookie2db();
+        cookie(C('SHOPPING_CAR_COOKIE_KEY'),null); // 清cookie
 
         return $userinfo;
     }

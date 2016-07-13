@@ -23,7 +23,7 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好{$userinfo.username}，欢迎来到京西！[<a href="{:U('Member/login')}">登录</a>] [<a href="{:U('Member/reg')}">免费注册</a>]</li>
+                <li id="userinfo"></li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -73,14 +73,14 @@
                     <b></b>
                 </dt>
                 <dd>
-                    <div class="prompt">
+                    <div class="prompt" id="usertips">
                         您好，请<a href="{:U('Member/login')}">登录</a>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
                             <li><a href="">我的订单></a></li>
-                            <li><a href="">收货地址></a></li>
+                            <li><a href="{:U('Member/locationIndex')}">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
 
@@ -110,7 +110,7 @@
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="{:U('Cart/flow1')}">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>
@@ -237,6 +237,26 @@
 <!-- 底部版权 end -->
 <script type="text/javascript" src="__JS__/jquery.min.js"></script>
 <script type="text/javascript" src="__JS__/header.js"></script>
+<script type="text/javascript">
+    //您好{$userinfo.username}，欢迎来到京西！[<a href="{:U('Member/login')}">登录</a>] [<a href="{:U('Member/reg')}">免费注册</a>]
+    $(function (){
+        //页面加载完，动态获取用户名
+        var url='{:U("Member/userinfo")}';
+        $.getJSON(url,function (username) {
+            console.debug(username);
+            if(username){
+                var html1='您好'+username+'，欢迎来到京西！[<a href="{:U('Member/logout')}">退出</a>]';
+                var html2='您好,'+username;
+            }else {
+                var html2='您好，请<a href="{:U('Member/login')}">登录</a>';
+                var html1='您好，欢迎来到京西！[<a href="{:U('Member/login')}">登录</a>] [<a href="{:U('Member/reg')}">免费注册</a>]';
+            }
+            //把内容 放到标签中
+            $('#userinfo').html(html1);
+            $('#usertips').html(html2);
+        });
+    });
+</script>
 <block name="js"></block>
 </body>
 </html>

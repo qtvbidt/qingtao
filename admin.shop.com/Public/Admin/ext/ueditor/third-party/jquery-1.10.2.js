@@ -3353,7 +3353,7 @@ jQuery.support = (function( support ) {
 	// This requires a wrapper element in IE
 	support.htmlSerialize = !!div.getElementsByTagName("link").length;
 
-	// Get the css information from getAttribute
+	// Get the style information from getAttribute
 	// (IE uses .cssText instead)
 	support.style = /top/.test( a.getAttribute("style") );
 
@@ -3366,7 +3366,7 @@ jQuery.support = (function( support ) {
 	// Use a regex to work around a WebKit issue. See #5145
 	support.opacity = /^0.5/.test( a.style.opacity );
 
-	// Verify css float existence
+	// Verify style float existence
 	// (IE uses styleFloat instead of cssFloat)
 	support.cssFloat = !!a.style.cssFloat;
 
@@ -6023,7 +6023,7 @@ var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figca
 		col: [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
 		td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
 
-		// IE6-8 can't serialize link, script, css, or any html5 (NoScope) tags,
+		// IE6-8 can't serialize link, script, style, or any html5 (NoScope) tags,
 		// unless wrapped in a div with non-breaking characters in front of it.
 		_default: jQuery.support.htmlSerialize ? [ 0, "", "" ] : [ 1, "X<div>", "</div>"  ]
 	},
@@ -6865,7 +6865,7 @@ function showHide( elements, show ) {
 			}
 
 			// Set elements which have been overridden with display: none
-			// in a stylesheet to whatever the default browser css is
+			// in a stylesheet to whatever the default browser style is
 			// for such an element
 			if ( elem.style.display === "" && isHidden( elem ) ) {
 				values[ index ] = jQuery._data( elem, "olddisplay", css_defaultDisplay(elem.nodeName) );
@@ -6942,8 +6942,8 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
-	// Add in css property hooks for overriding the default
-	// behavior of getting and setting a css property
+	// Add in style property hooks for overriding the default
+	// behavior of getting and setting a style property
 	cssHooks: {
 		opacity: {
 			get: function( elem, computed ) {
@@ -6977,7 +6977,7 @@ jQuery.extend({
 		"float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
 	},
 
-	// Get and set the css property on a DOM Node
+	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
 		// Don't set styles on text and comment nodes
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
@@ -7038,7 +7038,7 @@ jQuery.extend({
 				return ret;
 			}
 
-			// Otherwise just get the value from the css object
+			// Otherwise just get the value from the style object
 			return style[ name ];
 		}
 	},
@@ -7242,8 +7242,8 @@ function getWidthOrHeight( elem, name, extra ) {
 			return val;
 		}
 
-		// we need the check for css in case a browser which returns unreliable values
-		// for getComputedStyle silently falls back to the reliable elem.css
+		// we need the check for style in case a browser which returns unreliable values
+		// for getComputedStyle silently falls back to the reliable elem.style
 		valueIsBorderBox = isBorderBox && ( jQuery.support.boxSizingReliable || val === elem.style[ name ] );
 
 		// Normalize "", auto, and prepare for extra
@@ -7307,7 +7307,7 @@ jQuery.each([ "height", "width" ], function( i, name ) {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 				// certain elements can have dimension info if we invisibly show them
-				// however, it must have a current display css that would benefit from this
+				// however, it must have a current display style that would benefit from this
 				return elem.offsetWidth === 0 && rdisplayswap.test( jQuery.css( elem, "display" ) ) ?
 					jQuery.swap( elem, cssShow, function() {
 						return getWidthOrHeight( elem, name, extra );
@@ -7356,12 +7356,12 @@ if ( !jQuery.support.opacity ) {
 					jQuery.trim( filter.replace( ralpha, "" ) ) === "" &&
 					style.removeAttribute ) {
 
-				// Setting css.filter to null, "" & " " still leave "filter:" in the cssText
+				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
 				// if "filter:" is present at all, clearType is disabled, we want to avoid this
-				// css.removeAttribute is IE Only, but so apparently is this code path...
+				// style.removeAttribute is IE Only, but so apparently is this code path...
 				style.removeAttribute( "filter" );
 
-				// if there is no filter css applied in a css rule or unset inline opacity, we are done
+				// if there is no filter style applied in a css rule or unset inline opacity, we are done
 				if ( value === "" || currentStyle && !currentStyle.filter ) {
 					return;
 				}
@@ -9255,7 +9255,7 @@ Tween.propHooks = {
 			return !result || result === "auto" ? 0 : result;
 		},
 		set: function( tween ) {
-			// use step hook for back compat - use cssHook if its there - use .css if its
+			// use step hook for back compat - use cssHook if its there - use .style if its
 			// available and use plain properties where available
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );

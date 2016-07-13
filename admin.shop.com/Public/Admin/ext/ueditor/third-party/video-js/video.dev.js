@@ -1014,9 +1014,9 @@ vjs.getAttributeValues = function(tag){
 };
 
 /**
- * Get the computed css value for an element
+ * Get the computed style value for an element
  * From http://robertnyman.com/2006/04/24/get-the-rendered-style-of-an-element/
- * @param  {Element} el        Element to get css value for
+ * @param  {Element} el        Element to get style value for
  * @param  {String} strCssRule Style name
  * @return {String}            Style value
  * @private

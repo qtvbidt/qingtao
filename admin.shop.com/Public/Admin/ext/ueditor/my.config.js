@@ -216,8 +216,8 @@
         //,'customstyle':[
         //    {tag:'h1', name:'tc', label:'', style:'border-bottom:#ccc 2px solid;padding:0 4px 0 0;text-align:center;margin:0 0 20px 0;'},
         //    {tag:'h1', name:'tl',label:'', style:'border-bottom:#ccc 2px solid;padding:0 4px 0 0;margin:0 0 10px 0;'},
-        //    {tag:'span',name:'im', label:'', css:'font-css:italic;font-weight:bold'},
-        //    {tag:'span',name:'hi', label:'', css:'font-css:italic;font-weight:bold;color:rgb(51, 153, 204)'}
+        //    {tag:'span',name:'im', label:'', style:'font-style:italic;font-weight:bold'},
+        //    {tag:'span',name:'hi', label:'', style:'font-style:italic;font-weight:bold;color:rgb(51, 153, 204)'}
         //]
 
         //打开右键菜单功能

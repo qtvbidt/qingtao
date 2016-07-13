@@ -34,6 +34,7 @@ class GoodsModel extends Model{
     public function getGoodsInfo($id) {
         $row = $this->field('g.*,b.name as bname,gi.content')->alias('g')->where(['is_on_sale'=>1,'g.status'=>1,'g.id'=>$id])->join('__BRAND__ as b ON g.brand_id=b.id')->join('__GOODS_INTRO__ as gi ON gi.goods_id=g.id')->find();
         $row['galleries'] = M('GoodsGallery')->where(['goods_id'=>$id])->getField('path',true);
+        //dump($this->getLastSql());exit;
         return $row;
     }
 }

@@ -128,3 +128,20 @@ function sendMail($email,$subject,$content) {
         echo 'Message has been sent';
     }
 }
+
+//商品点击次数放入Redis
+function get_redis(){
+    $redis = new Redis();
+    $redis->connect(C('REDIS_HOST'),C('REDIS_PORT'));
+    return $redis;
+}
+
+/**
+ * 本地金钱表示形式：100 表示为 100.00
+ * @param $number
+ * @return string
+ */
+function locate_number_format($number){
+    //                  数字  小数位 用什么表示小数点 千位用什么默认是逗号
+    return number_format($number,2,'.','');
+}

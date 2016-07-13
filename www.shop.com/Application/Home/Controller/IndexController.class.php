@@ -50,6 +50,7 @@ class IndexController extends Controller {
         if(!$row = $goods_model->getGoodsInfo($id)){
             $this->error('您查看的商品没有了,下次再来哦',U('index'));
         }
+        //dump($row);exit;
         $this->assign('row',$row);
         $this->display();
     }

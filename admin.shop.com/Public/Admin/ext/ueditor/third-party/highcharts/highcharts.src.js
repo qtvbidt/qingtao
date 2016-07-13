@@ -182,7 +182,7 @@ function merge() {
 
 /**
  * Take an array and turn into a hash with even number arguments as keys and odd numbers as
- * values. Allows creating constants for commonly used css properties, attributes etc.
+ * values. Allows creating constants for commonly used style properties, attributes etc.
  * Avoid it in performance critical situations like looping
  */
 function hash() {
@@ -1181,7 +1181,7 @@ pathAnim = {
 				elem.attr('d', pathAnim.step(fx.start, fx.end, fx.pos, elem.toD));
 			};
 			
-			// jQuery 1.8 css
+			// jQuery 1.8 style
 			if (Tween) {
 				propHooks.d = {
 					set: dSetter
@@ -1657,7 +1657,7 @@ defaultOptions = {
 			},
 			stickyTracking: true
 			//tooltip: {
-				//pointFormat: '<span css="color:{series.color}">{series.name}</span>: <b>{point.y}</b>'
+				//pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b>'
 				//valueDecimals: null,
 				//xDateFormat: '%A, %b %e, %Y',
 				//valuePrefix: '',
@@ -1691,13 +1691,13 @@ defaultOptions = {
 			activeColor: '#274b6d',
 			// arrowSize: 12
 			inactiveColor: '#CCC'
-			// css: {} // text styles
+			// style: {} // text styles
 		},
 		// margin: 10,
 		// reversed: false,
 		shadow: false,
 		// backgroundColor: null,
-		/*css: {
+		/*style: {
 			padding: '5px'
 		},*/
 		itemStyle: {
@@ -1766,8 +1766,8 @@ defaultOptions = {
 			year: '%Y'
 		},
 		//formatter: defaultFormatter,
-		headerFormat: '<span css="font-size: 10px">{point.key}</span><br/>',
-		pointFormat: '<span css="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+		headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>',
+		pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
 		shadow: true,
 		//shared: false,
 		snap: isTouchDevice ? 25 : 10,
@@ -2407,8 +2407,8 @@ SVGElement.prototype = {
 			delete styles.width;
 		}
 
-		// serialize and set css attribute
-		if (isIE && !hasSVG) { // legacy IE doesn't support setting css attribute
+		// serialize and set style attribute
+		if (isIE && !hasSVG) { // legacy IE doesn't support setting style attribute
 			if (textWidth) {
 				delete styles.width;
 			}
@@ -3238,8 +3238,8 @@ SVGRenderer.prototype = {
 			renderer = this,
 			forExport = renderer.forExport,
 			lines = pick(wrapper.textStr, '').toString()
-				.replace(/<(b|strong)>/g, '<span css="font-weight:bold">')
-				.replace(/<(i|em)>/g, '<span css="font-css:italic">')
+				.replace(/<(b|strong)>/g, '<span style="font-weight:bold">')
+				.replace(/<(i|em)>/g, '<span style="font-style:italic">')
 				.replace(/<a/g, '<span')
 				.replace(/<\/(b|strong|i|em|a)>/g, '</span>')
 				.split(/<br.*?>/g),
@@ -4563,9 +4563,9 @@ Highcharts.VMLElement = VMLElement = {
 		}
 		style.push('visibility: ', isDiv ? HIDDEN : VISIBLE);
 
-		markup.push(' css="', style.join(''), '"/>');
+		markup.push(' style="', style.join(''), '"/>');
 
-		// create element with default attributes and css
+		// create element with default attributes and style
 		if (nodeName) {
 			markup = isDiv || nodeName === 'span' || nodeName === 'img' ?
 				markup.join('')
@@ -4875,7 +4875,7 @@ Highcharts.VMLElement = VMLElement = {
 					// rotation on VML elements
 					} else if (nodeName === 'shape' && key === 'rotation') {
 
-						wrapper[key] = element.style[key] = value; // css is for #1873
+						wrapper[key] = element.style[key] = value; // style is for #1873
 
 						// Correction for the 1x1 size of the shape container. Used in gauge needles.
 						element.style.left = -mathRound(mathSin(value * deg2rad) + 1) + PX;
@@ -5038,7 +5038,7 @@ Highcharts.VMLElement = VMLElement = {
 
 				markup = ['<shape isShadow="true" strokeweight="', strokeWidth,
 					'" filled="false" path="', modifiedPath,
-					'" coordsize="10 10" css="', element.style.cssText, '" />'];
+					'" coordsize="10 10" style="', element.style.cssText, '" />'];
 
 				shadow = createElement(renderer.prepVML(markup),
 					null, {
@@ -5113,7 +5113,7 @@ var VMLRendererExtension = { // inherit SVGRenderer
 
 		// The only way to make IE6 and IE7 print is to use a global namespace. However,
 		// with IE8 the only way to make the dynamic shapes visible in screen and print mode
-		// seems to be to add the xmlns attribute and the behaviour css inline.
+		// seems to be to add the xmlns attribute and the behaviour style inline.
 		if (!doc.namespaces.hcv) {
 
 			doc.namespaces.add('hcv', 'urn:schemas-microsoft-com:vml');
@@ -5137,7 +5137,7 @@ var VMLRendererExtension = { // inherit SVGRenderer
 
 	/**
 	 * Define a clipping rectangle. In VML it is accomplished by storing the values
-	 * for setting the CSS css to all associated members.
+	 * for setting the CSS style to all associated members.
 	 *
 	 * @param {Number} x
 	 * @param {Number} y
@@ -5150,7 +5150,7 @@ var VMLRendererExtension = { // inherit SVGRenderer
 		var clipRect = this.createElement(),
 			isObj = isObject(x);
 
-		// mimic a rectangle with its css object for automatic updating in attr
+		// mimic a rectangle with its style object for automatic updating in attr
 		return extend(clipRect, {
 			members: [],
 			left: (isObj ? x.x : x) + 1,
@@ -5379,12 +5379,12 @@ var VMLRendererExtension = { // inherit SVGRenderer
 
 		markup = markup.join('');
 
-		if (isIE8) { // add xmlns and css inline
+		if (isIE8) { // add xmlns and style inline
 			markup = markup.replace('/>', ' xmlns="urn:schemas-microsoft-com:vml" />');
-			if (markup.indexOf('css="') === -1) {
-				markup = markup.replace('/>', ' css="' + vmlStyle + '" />');
+			if (markup.indexOf('style="') === -1) {
+				markup = markup.replace('/>', ' style="' + vmlStyle + '" />');
 			} else {
-				markup = markup.replace('css="', 'css="' + vmlStyle);
+				markup = markup.replace('style="', 'style="' + vmlStyle);
 			}
 
 		} else { // add namespace
@@ -6351,7 +6351,7 @@ function StackItem(axis, options, isNegative, x, stackOption, stacking) {
 	// Tells if the stack is negative
 	this.isNegative = isNegative;
 
-	// Save the options to be able to css the label
+	// Save the options to be able to style the label
 	this.options = options;
 
 	// Save the x value to be able to position the label later
@@ -6402,7 +6402,7 @@ StackItem.prototype = {
 		} else {
 			this.label =
 				this.axis.chart.renderer.text(str, 0, 0, options.useHTML)		// dummy positions, actual position updated with setOffset method in columnseries
-					.css(options.style)				// apply css
+					.css(options.style)				// apply style
 					.attr({
 						align: this.textAlign,				// fix the text-anchor
 						rotation: options.rotation,	// rotation
@@ -6505,13 +6505,13 @@ Axis.prototype = {
 		//plotBands: [{
 		//	events: {},
 		//	zIndex: 1,
-		//	labels: { align, x, verticalAlign, y, css, rotation, textAlign }
+		//	labels: { align, x, verticalAlign, y, style, rotation, textAlign }
 		//}],
 		//plotLines: [{
 		//	events: {}
 		//  dashStyle: {}
 		//	zIndex:
-		//	labels: { align, x, verticalAlign, y, css, rotation, textAlign }
+		//	labels: { align, x, verticalAlign, y, style, rotation, textAlign }
 		//}],
 		//reversed: false,
 		// showFirstLabel: true,
@@ -10325,15 +10325,15 @@ Legend.prototype = {
 			legend.positionItem(item);
 		});
 
-		// 1.x compatibility: positioning based on css
+		// 1.x compatibility: positioning based on style
 		/*var props = ['left', 'right', 'top', 'bottom'],
 			prop,
 			i = 4;
 		while (i--) {
 			prop = props[i];
-			if (options.css[prop] && options.css[prop] !== 'auto') {
+			if (options.style[prop] && options.style[prop] !== 'auto') {
 				options[i < 2 ? 'align' : 'verticalAlign'] = prop;
-				options[i < 2 ? 'x' : 'y'] = pInt(options.css[prop]) * (i % 2 ? -1 : 1);
+				options[i < 2 ? 'x' : 'y'] = pInt(options.style[prop]) * (i % 2 ? -1 : 1);
 			}
 		}*/
 
@@ -16035,7 +16035,7 @@ seriesTypes.bar = BarSeries;
 defaultPlotOptions.scatter = merge(defaultSeriesOptions, {
 	lineWidth: 0,
 	tooltip: {
-		headerFormat: '<span css="font-size: 10px; color:{series.color}">{series.name}</span><br/>',
+		headerFormat: '<span style="font-size: 10px; color:{series.color}">{series.name}</span><br/>',
 		pointFormat: 'x: <b>{point.x}</b><br/>y: <b>{point.y}</b><br/>',
 		followPointer: true
 	},

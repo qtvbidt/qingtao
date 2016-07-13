@@ -2652,10 +2652,10 @@ var domUtils = dom.domUtils = {
      * @return { Boolean } 两个节点是否具有相同的标签名、属性名以及属性值
      * @example
      * ```html
-     * <span css="font-size:12px">ssss</span>
-     * <span css="font-size:12px">bbbbb</span>
-     * <span css="font-size:13px">ssss</span>
-     * <span css="font-size:14px">bbbbb</span>
+     * <span style="font-size:12px">ssss</span>
+     * <span style="font-size:12px">bbbbb</span>
+     * <span style="font-size:13px">ssss</span>
+     * <span style="font-size:14px">bbbbb</span>
      *
      * <script>
      *
@@ -2727,10 +2727,10 @@ var domUtils = dom.domUtils = {
      * @return { Boolean } 两个节点是否具有相同的style属性值
      * @example
      * ```html
-     * <span css="font-size:12px">ssss</span>
-     * <span css="font-size:12px">bbbbb</span>
-     * <span css="font-size:13px">ssss</span>
-     * <span css="font-size:14px">bbbbb</span>
+     * <span style="font-size:12px">ssss</span>
+     * <span style="font-size:12px">bbbbb</span>
+     * <span style="font-size:13px">ssss</span>
+     * <span style="font-size:14px">bbbbb</span>
      *
      * <script>
      *
@@ -2787,9 +2787,9 @@ var domUtils = dom.domUtils = {
      *          否则，检测该元素的css样式， 如果该元素当前是block元素， 则返回true。 其余情况下都返回false。
      * @example
      * ```html
-     * <span id="test1" css="display: block"></span>
+     * <span id="test1" style="display: block"></span>
      * <span id="test2"></span>
-     * <div id="test3" css="display: inline"></div>
+     * <div id="test3" style="display: inline"></div>
      *
      * <script>
      *
@@ -2959,9 +2959,9 @@ var domUtils = dom.domUtils = {
      * @desc
      * UE.dom.domUtils.mergeChild(node,tagName) //tagName要合并的子节点的标签
      * @example
-     * <p><span css="font-size:12px;">xx<span css="font-size:12px;">aa</span>xx</span></p>
+     * <p><span style="font-size:12px;">xx<span style="font-size:12px;">aa</span>xx</span></p>
      * ==> UE.dom.domUtils.mergeChild(node,'span')
-     * <p><span css="font-size:12px;">xxaaxx</span></p>
+     * <p><span style="font-size:12px;">xxaaxx</span></p>
      */
     mergeChild:function (node, tagName, attrs) {
         var list = domUtils.getElementsByTagName(node, node.tagName.toLowerCase());
@@ -3197,14 +3197,14 @@ var domUtils = dom.domUtils = {
      * @example
      * ```html
      * <div id="wrap">
-     *      <span css="font-size:14px;" id="test" name="followMe">xxxxx</span>
+     *      <span style="font-size:14px;" id="test" name="followMe">xxxxx</span>
      * </div>
      *
      * <script>
      *
      *     UE.dom.domUtils.removeAttributes( document.getElementById( "test" ), "id name" );
      *
-     *     //output: <span css="font-size:14px;">xxxxx</span>
+     *     //output: <span style="font-size:14px;">xxxxx</span>
      *     console.log( document.getElementById("wrap").innerHTML );
      *
      * </script>
@@ -3219,14 +3219,14 @@ var domUtils = dom.domUtils = {
      * @example
      * ```html
      * <div id="wrap">
-     *      <span css="font-size:14px;" id="test" name="followMe">xxxxx</span>
+     *      <span style="font-size:14px;" id="test" name="followMe">xxxxx</span>
      * </div>
      *
      * <script>
      *
      *     UE.dom.domUtils.removeAttributes( document.getElementById( "test" ), ["id", "name"] );
      *
-     *     //output: <span css="font-size:14px;">xxxxx</span>
+     *     //output: <span style="font-size:14px;">xxxxx</span>
      *     console.log( document.getElementById("wrap").innerHTML );
      *
      * </script>
@@ -3328,11 +3328,11 @@ var domUtils = dom.domUtils = {
      * @return { String } 获取到的样式值
      * @example
      * ```html
-     * <css type="text/css">
+     * <style type="text/css">
      *      #test {
      *          font-size: 15px;
      *      }
-     * </css>
+     * </style>
      *
      * <span id="test"></span>
      *
@@ -3557,7 +3557,7 @@ var domUtils = dom.domUtils = {
      * @param { String } styleName 需要删除的样式名
      * @example
      * ```html
-     * <span id="test" css="color: red; background: blue;"></span>
+     * <span id="test" style="color: red; background: blue;"></span>
      *
      * <script>
      *
@@ -3566,7 +3566,7 @@ var domUtils = dom.domUtils = {
      *     UE.dom.domUtils.removeStyle( testNode, 'color' );
      *
      *     //output: background: blue;
-     *     console.log( testNode.css.cssText );
+     *     console.log( testNode.style.cssText );
      *
      * </script>
      * ```
@@ -3634,11 +3634,11 @@ var domUtils = dom.domUtils = {
      *      var testNode = document.getElementById( "test" );
      *
      *      //output: ""
-     *      console.log( testNode.css.color );
+     *      console.log( testNode.style.color );
      *
      *      UE.dom.domUtils.setStyle( testNode, 'color', 'red' );
      *      //output: "red"
-     *      console.log( testNode.css.color );
+     *      console.log( testNode.style.color );
      *
      * </script>
      * ```
@@ -3663,13 +3663,13 @@ var domUtils = dom.domUtils = {
      *      var testNode = document.getElementById( "test" );
      *
      *      //output: ""
-     *      console.log( testNode.css.color );
+     *      console.log( testNode.style.color );
      *
      *      UE.dom.domUtils.setStyles( testNode, {
      *          'color': 'red'
      *      } );
      *      //output: "red"
-     *      console.log( testNode.css.color );
+     *      console.log( testNode.style.color );
      *
      * </script>
      * ```
@@ -3940,7 +3940,7 @@ var domUtils = dom.domUtils = {
      *                                  offset.top的距离
      * @example
      * ```html
-     * <div id="test" css="top: 100px; left: 50px; position: absolute;"></div>
+     * <div id="test" style="top: 100px; left: 50px; position: absolute;"></div>
      *
      * <script>
      *
@@ -3952,7 +3952,7 @@ var domUtils = dom.domUtils = {
      *     } );
      *
      *     //output: top: 300px; left: 100px; position: absolute;
-     *     console.log( testNode.css.cssText );
+     *     console.log( testNode.style.cssText );
      *
      * </script>
      * ```
@@ -5486,11 +5486,11 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
          * ==>
          *
          * <!-- 执行操作 -->
-         * range.applyInlineStyle("strong",{"css":"font-size:12px"})
+         * range.applyInlineStyle("strong",{"style":"font-size:12px"})
          *
          * ==>
          *
-         * <p>xxxx[<strong css="font-size:12px">xxxx</strong>]x</p>
+         * <p>xxxx[<strong style="font-size:12px">xxxx</strong>]x</p>
          * ```
          */
         applyInlineStyle:function (tagName, attrs, list) {
