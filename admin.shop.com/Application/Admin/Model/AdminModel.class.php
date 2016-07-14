@@ -30,7 +30,7 @@ class AdminModel extends Model{
         ['email','require','邮箱不能为空'],
         ['email','email','邮箱格式不合法',self::EXISTS_VALIDATE],
         ['email','','邮箱已被占用',self::EXISTS_VALIDATE,'unique'],
-        ['captcha','checkCaptcha','验证码不正确',self::EXISTS_VALIDATE,'callback'],
+        //['captcha','checkCaptcha','验证码不正确',self::EXISTS_VALIDATE,'callback'],
     ];
 
     /**

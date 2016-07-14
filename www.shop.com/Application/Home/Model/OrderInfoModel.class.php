@@ -12,11 +12,23 @@ namespace Home\Model;
 use Think\Model;
 
 class OrderInfoModel extends Model{
+    //订单状态把数字变为字符
+    public $statuses = [
+        0=>'已取消',
+        1=>'待支付',
+        2=>'待发货',
+        3=>'待收货',
+        4=>'完成',
+    ];
+
+
     /**
      * 创建订单
      * 1.创建订单基本信息表记录
      * 2.保存订单详情
      * 3.保存发票信息
+     * 4.扣除库存
+     *  获取每一个要购买的商品库存是否足够
      */
     public function addOrder(){
         $this->startTrans();//开启事务
@@ -40,6 +52,42 @@ class OrderInfoModel extends Model{
         //获取订单金额，从购物车中得到
         $shopping_car_model = D('ShoppingCar');
         $cart_info = $shopping_car_model->getShoppingCarList();
+
+        //验证购物车中的数商品是否库存都够
+        //dump($cart_info);exit;
+        $cond['_logic']='OR';
+        foreach($cart_info['goods_info_list'] as $key=>$value){
+            $cond[] = [
+                'id'=>$key,
+                'stock'=>['lt',$value['amount'],],
+            ];
+        }
+        $goods_model = M('Goods');//建立商品表模型
+        //查询有没有库存量小于购物数量的
+        $not_enough_stock_list = $goods_model->where($cond)->select();
+        //dump($not_enough_stock_list);exit;
+        $error = '';
+        //如果有就说明库存不足，不创建订单 后面代码不执行
+        if($not_enough_stock_list){
+            foreach($not_enough_stock_list as $goods){
+                $error .= $goods['name'] . ',';
+            }
+            $this->error = $error . '库存不足';//拼接错误提示，明确是哪个商品库存不足
+            //dump($error);exit;
+            $this->rollback();//回滚事务
+            return false;
+        }
+
+        //如果库存够，那么要将数据库中对应商品的库存量减云订单中商品的数量
+        foreach($cart_info['goods_info_list'] as $goods){
+            //setDec('字段名a','数字b')将表中对应字段a中的数字减云b成为新数据
+            if($goods_model->where(['id'=>$goods['id']])->setDec('stock', $goods['amount'])===false){
+                $this->error = '更新库存失败';
+                $this->rollback();
+                return false;
+            }
+        }
+
         $this->data['price'] = $cart_info['total_price'];//订单总金额
         $this->data['status'] = 1; //订单创建状态为未支付
         //保存订单基本信息
@@ -128,5 +176,27 @@ class OrderInfoModel extends Model{
 
         $this->commit(); //提交事务
         return true;
+    }
+
+    //获取用户的订单列表
+    public function getList() {
+        $userinfo = login();//获取用户信息
+        $cond = [
+            'member_id'=>$userinfo['id'],
+        ];
+        $rows = $this->where($cond)->select();//查出当前用户的所有订单
+        //取出订单详情
+        //创详情表模型
+        $order_info_item_model = M('OrderInfoItem');
+        //取出对应商品的详情放入数组中
+        foreach($rows as $key=>$value){
+            $rows[$key]['goods_list'] = $order_info_item_model->field('goods_id,goods_name,logo')->where(['order_info_id'=>$value['id']])->select();
+        }
+        return $rows;
+    }
+
+    //通过订单id获取订单详情
+    public function getOrderInfoById($id) {
+        return $this->find($id);
     }
 }

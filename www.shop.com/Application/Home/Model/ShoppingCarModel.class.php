@@ -163,11 +163,14 @@ class ShoppingCarModel extends Model{
                 //如果高了会员价就用会员价
                 // 单价                                       这个函数是为了保留两位小数
                 $goods_info_list[$goods_id]['shop_price'] = locate_number_format($member_price);
-            }else{
+            }elseif($userinfo){
 
                 //没设会员价用原价*折扣率
                 $goods_info_list[$goods_id]['shop_price'] = locate_number_format($goods_info_list[$goods_id]['shop_price'] * $discount / 100);
 
+            }else{
+                //如果没有登陆，按照 原价显示
+                $goods_info_list[$goods_id]['shop_price'] = locate_number_format($goods_info_list[$goods_id]['shop_price']);
             }
 
 
